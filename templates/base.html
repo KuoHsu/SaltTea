@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+
+<head>
+    <title>{% block title %}{% endblock title %}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Muli:300,400,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'fonts/' %}icomoon/style.css">
+    <link rel="stylesheet" href="{% static 'css/' %}bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/' %}jquery-ui.css">
+    <link rel="stylesheet" href="{% static 'css/' %}owl.carousel.min.css">
+    <link rel="stylesheet" href="{% static 'css/' %}owl.theme.default.min.css">
+    <link rel="stylesheet" href="{% static 'css/' %}owl.theme.default.min.css">
+    <link rel="stylesheet" href="{% static 'css/' %}jquery.fancybox.min.css">
+    <link rel="stylesheet" href="{% static 'css/' %}bootstrap-datepicker.css">
+    <link rel="stylesheet" href="{% static 'fonts/' %}flaticon/font/flaticon.css">
+    <link rel="stylesheet" href="{% static 'css/' %}aos.css">
+    <link rel="stylesheet" href="{% static 'css/' %}style.css">
+    <link rel="stylesheet" href="{% static 'css/' %}salt.css">
+</head>
+{% block style %}
+{% endblock style %}
+<script src="{% static 'js/' %}jquery-3.3.1.min.js"></script>
+<script src="{% static 'js/' %}jquery-migrate-3.0.1.min.js"></script>
+<script src="{% static 'js/' %}jquery-ui.js"></script>
+<script src="{% static 'js/' %}popper.min.js"></script>
+<script src="{% static 'js/' %}bootstrap.min.js"></script>
+<script src="{% static 'js/' %}owl.carousel.min.js"></script>
+<script src="{% static 'js/' %}jquery.stellar.min.js"></script>
+<script src="{% static 'js/' %}jquery.countdown.min.js"></script>
+<script src="{% static 'js/' %}bootstrap-datepicker.min.js"></script>
+<script src="{% static 'js/' %}jquery.easing.1.3.js"></script>
+<script src="{% static 'js/' %}aos.js"></script>
+<script src="{% static 'js/' %}jquery.fancybox.min.js"></script>
+<script src="{% static 'js/' %}jquery.sticky.js"></script>
+<script src="{% static 'js/' %}main.js"></script>
+<script src="{% static 'js/' %}extend-functions.js"></script>
+<script src="{% static 'js/' %}numeral.min.js"></script>
+<!--http://numeraljs.com/-->
+
+
+
+
+<body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+    <header class="site-navbar js-sticky-header site-navbar-target {% block headerTheme %}{% endblock headerTheme %}" role="banner">
+        {% block header %}
+        {% endblock header %}
+    </header>
+
+    <div class="intro-section" id="home-section">
+        <div id="background" class="slide-1" style="background-image: url('{% static 'images/' %}hero_1.jpg');"
+            data-stellar-background-ratio="0.5">
+        </div>
+        <div class="container">
+            {% block container %}
+            {% endblock container %}
+        </div>
+    </div>
+
+    <footer>
+        <div class="col-md-12">
+            <div style="text-align:center;margin-top:3rem;">
+                <p id="copyright">
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    Copyright &copy;
+                    <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is
+                    made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com"
+                        target="_blank" class="ob">Colorlib</a>
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                </p>
+            </div>
+        </div>
+    </footer>
+</body>
+{% block script %}
+{% endblock script %}
+</html>

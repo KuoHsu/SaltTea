@@ -1,0 +1,87 @@
+<div class="container-fluid">
+    <div class="d-flex align-items-center">
+        <div class="site-logo mr-auto w-25"><a href="index">SaltTea</a></div>
+        <div class="mx-auto text-center">
+            <nav class="site-navigation position-relative text-right" role="navigation">
+                <ul class="site-menu main-menu js-clone-nav mx-auto d-none d-lg-block  m-0 p-0" id="function_menu">
+                    <li class="position-relative border-b-w">
+                        <a href="" class="nav-link px-0">Home</a>
+                        <ul class="sub_menu">
+                            <li class=""><a href="product">本公司商品</a></li>
+                            <li class=""><a href="about">關於我們</a></li>
+                        </ul>
+                    </li>
+
+
+                    <li class="position-relative border-b-w">
+                        <a class="text-white nav-link px-0">ViewReport</a>
+                        <ul class="sub_menu">
+
+                            {% if permission != 'branch' %}
+                            <li class=""><a href="goTable">總體營運報表</a></li>
+                            {% endif %}
+                            
+                            <!--投資人、分析師、財務部門(總公司)-->
+
+                            {% if permission != 'investor' %}
+                            <li class=""><a href="boTable">分店營運報表</a></li>
+                            {% endif %}
+                            <!--分店、分析師、財務部門(總公司)-->
+
+                            {% if permission != 'branch' %}
+                            <li class=""><a href="gsTable">總體銷售報表</a></li>
+                            {% endif %}
+                            <!--投資人、分析師、財務部門(總公司)-->
+
+                            {% if permission != 'investor' %}
+                            <li class=""><a href="bsTable">分店銷售報表</a></li>
+                            {% endif %}
+                            <!--分店、分析師、財務部門(總公司)-->
+                        </ul>
+                    </li>
+
+                    {% if permission == 'branch' %}
+                    <li class="position-relative border-b-w">
+                        <a href="" class="text-white nav-link px-0">UploadReport</a>
+                        <ul class="sub_menu">
+                            <li><a href="uploadReport" class="uploadReport">上傳各項報表</a></li>
+                            <!--分店-->
+                        </ul>
+                    </li>
+                    {% endif %}
+
+                    {% if permission == 'finDep' or permission == 'analysis' %}
+                    <li class="position-relative border-b-w">
+                        <a href="" class="text-white nav-link px-0">DataAnalysis</a>
+                        <ul class="sub_menu">
+
+                            {% if permission == 'analysis' %}
+                            <li class=""><a href="dataAnalysis">數據分析</a></li>
+                            <!--分析師-->
+                            {% endif %}
+
+                            {% if permission == 'finDep' %}
+                            <li class=""><a href="analysisReport">檢視分析報告</a></li>
+                            <!--財務部門(總公司)-->
+                            {% endif %}
+
+
+                        </ul>
+                    </li>
+                    {% endif %}
+
+                </ul>
+            </nav>
+        </div>
+        <div class="ml-auto w-25">
+            <nav class="site-navigation position-relative text-right" role="navigation">
+                <div id="accountInfo">
+                    <span class="px-2">Hello !　{{username}}</span>　
+                    <span class="p-2"><a href="logout">Sign Out</a></span>
+                </div>
+            </nav>
+            <a href="#" class="d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black float-right"><span
+                    class="icon-menu h3"></span></a>
+        </div>
+    </div>
+</div>

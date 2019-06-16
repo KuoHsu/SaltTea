@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}SaltTea財務管理系統{% endblock title %}
+
+{% block style %}
+<style>
+h1{
+    opactiy:1!important;
+}
+</style>
+{% endblock style %}
+
+{% block header %}
+    {% if login %}
+        {% include "headerLogin.html" %} 
+    {% else %}
+        {% include "header.html" %} 
+    {% endif %}
+{% endblock header %}
+
+{% block container %}
+<div class="col-12" style="top:10em;opactiy:1!important;">
+    <div class="row align-items-center">
+        <div class="col-lg-6 mb-4" style=" margin:0 auto;text-align:center">
+            <h1  data-aos-delay="100">Learn From The Expert</h1>
+                <p class="mb-4" data-aos-delay="200">Lorem ipsum dolor sit amet consectetur
+                    adipisicing elit. Maxime ipsa nulla sed quis rerum amet natus quas necessitatibus.</p>
+        </div>
+    </div>
+</div>
+{% endblock container %}
