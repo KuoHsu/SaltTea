@@ -6,13 +6,17 @@ from django.http import HttpResponseRedirect, HttpResponse
 import dataProcess as dp
 from django.contrib.auth.models import Group
 from django.db.models import Sum, Max
+import pickle
+import numpy as np
 import json
+from sklearn.preprocessing import StandardScaler
+
 
 # 首頁
 
 
 def index(request):
-    userInfo = getUserInfo(request)
+    userInfo = get_user_info(request)
     return render(request, "index.html", userInfo)
 
 
@@ -24,25 +28,22 @@ def about(request):
     return render(request, "about.html")
 
 
-def dataAnalysis(request):
-    userInfo = getUserInfo(request)
+def data_analysis(request):
+    userInfo = get_user_info(request)
     return render(request, 'dataAnalysis.html', userInfo)
 
 
-def dataAnalysisQuery(request):
-    pass
-
-def dataAnalysisReport(request):
+def data_analysis_report(request):
     pass
 
 
-def analysisReport(request):
-    userInfo = getUserInfo(request)
+def analysis_report(request):
+    userInfo = get_user_info(request)
     return render(request, 'analysisReport.html', userInfo)
 
 
 # 上傳分析報告
-def uploadReportAction(request):
+def upload_report_action(request):
     response = HttpResponse()
     if request.method == "POST":
 
@@ -57,14 +58,14 @@ def uploadReportAction(request):
 # 上傳分析報告頁面
 @login_required
 @permission_required("fa_system.asBranch")
-def uploadReport(request):
-    return render(request, "uploadReport.html", getUserInfo(request))
+def upload_report(request):
+    return render(request, "uploadReport.html", get_user_info(request))
 
 
 # 上傳分店報表
 @login_required
 @permission_required("fa_system.asBranch")
-def uploadAction(request):
+def upload_action(request):
 
     if (
         request.method == "POST"
@@ -122,7 +123,7 @@ def login(request):
 
 
 # 登入
-def loginAction(request):
+def login_action(request):
     msgToReture = {"message": ""}
     loginFlag = False
     # 確認方法正確
@@ -168,7 +169,7 @@ def loginAction(request):
 
 # 登出
 @login_required
-def fun(request):
+def logout(request):
     print('here')
     # 清除瀏覽器資料
 
@@ -178,13 +179,13 @@ def fun(request):
 
 
 # 顯示總體營運報表
-def goTableAction(request):
+def go_table_action(request):
     if request.method == "POST":
 
         uid = request.session.get("username", None)
         month = request.POST.get("month")
 
-        userInfo = getUserInfo(request)
+        userInfo = get_user_info(request)
 
         # 傳回總營運表
         # 銷貨收入
@@ -229,7 +230,7 @@ def goTableAction(request):
 
 
 # 顯示分店營運報表
-def boTableAction(request):
+def bo_table_action(request):
     if request.method == "POST":
 
         uid = request.session.get("username", None)
@@ -237,7 +238,7 @@ def boTableAction(request):
         branchId = request.POST.get("branchId")
         print(branchId)
         branchIdQuery = int(branchId) - 20000
-        userInfo = getUserInfo(request)
+        userInfo = get_user_info(request)
 
         # 銷貨收入
         sales = Sales.objects.filter(branch = branchIdQuery).filter(month = month)
@@ -284,13 +285,13 @@ def boTableAction(request):
 
 
 # 顯示總體銷售報表
-def gsTableAction(request):
+def gs_table_action(request):
     if request.method == "POST":
 
         uid = request.session.get("username", None)
         month = request.POST.get("month")
 
-        userInfo = getUserInfo(request)
+        userInfo = get_user_info(request)
 
         # 傳回總銷售表
 
@@ -330,7 +331,7 @@ def gsTableAction(request):
 
 
 # 顯示分店銷售報表
-def bsTableAction(request):
+def bs_table_action(request):
     if request.method == "POST":
 
         uid = request.session.get("username", None)
@@ -338,7 +339,7 @@ def bsTableAction(request):
         branchId = int(request.POST.get("branchId"))
         print(branchId)
         branchIdQuery = branchId - 20000
-        userInfo = getUserInfo(request)
+        userInfo = get_user_info(request)
 
         # 傳回分店銷售表
         # sales = Sales.objects.filter(month=month).filter(branch=branch)
@@ -377,15 +378,15 @@ def bsTableAction(request):
 
 
 # 總營運報表頁面
-def goTable(request):
-    userInfo = getUserInfo(request)
+def go_table(request):
+    userInfo = get_user_info(request)
     return render(request, 'goTable.html', userInfo)
 
 # 分店營運報表頁面
 
 
-def boTable(request):
-    info = getUserInfo(request)
+def bo_table(request):
+    info = get_user_info(request)
     permission = request.session.get("permission", None)
     ids = list()
     ids.append(request.session.get("username", None))
@@ -398,15 +399,15 @@ def boTable(request):
 # 總銷售報表頁面
 
 
-def gsTable(request):
-    userInfo = getUserInfo(request)
+def gs_table(request):
+    userInfo = get_user_info(request)
     return render(request, 'gsTable.html', userInfo)
 
 # 分店銷售報表頁面
 
 
-def bsTable(request):
-    info = getUserInfo(request)
+def bs_table(request):
+    info = get_user_info(request)
     permission = request.session.get("permission", None)
     ids = list()
     ids.append(request.session.get("username", None))
@@ -420,12 +421,104 @@ def bsTable(request):
 
 
 # tools
-def getUserInfo(request):
+def get_user_info(request):
     r = dict()
     r["login"] = request.session.get("login", False)
     r["username"] = request.session.get("username", "")
     r["permission"] = request.session.get("permission", "guest")
     return r
+
+
+@permission_required("fa_system.analysts")
+def data_analysis_query(request):
+# 給 month 傳回 x,y
+
+
+    if request.method == "POST":
+
+        month = request.POST.get("month")
+
+        userInfo = get_user_info(request)
+
+        # 初始化七筆輸入資料
+        months = []
+        saleses = []
+        salarys = []
+        purchases = []
+        rents = []
+        electrics = []
+
+        # 取前六個月的月份和本月，遞增排序
+        for i in range(6, -1, -1):
+            thisMonth = (month - i) if (month - i) > 0 else (month - i) + 12
+            months.append(thisMonth)
+
+            # 銷貨收入
+            sales = Sales.objects.filter(month=thisMonth)
+            price_list = [p.price for p in sales]
+            quantity_list = [q.quantity for q in sales]
+            saleses.append(
+                sum([i * j for i, j in zip(price_list, quantity_list)])
+            )
+
+            # 薪資
+            salarys.append(
+                Salary.objects.filter(month=thisMonth).aggregate(
+                    salary=Sum("total")
+                )["salary"]
+            )
+
+            # 銷貨成本
+            purchase = Purchase.objects.filter(month=thisMonth)
+            price_list = [p.price for p in purchase]
+            quantity_list = [q.quantity for q in purchase]
+            purchases.append(
+                sum([i * j for i, j in zip(price_list, quantity_list)])
+            )
+
+            # 電費
+            electrics.append(
+                Utility.objects.filter(month=thisMonth).aggregate(
+                    electric=Sum("electric")
+                )["electric"]
+            )
+
+            # 租金
+            rents.append(
+                Utility.objects.filter(month=thisMonth).aggregate(
+                    rent=Sum("rent")
+                )["rent"]
+            )
+
+        x = []
+        for m, s1, s2, p, e, r in zip(
+            months, saleses, salarys, purchases, electrics, rents
+        ):
+            x.append([m, s1, s2, p, e, r])
+
+        # 標準化輸入變數
+        x = np.array(np.float64(x))
+        # meanList=
+        # sdList=
+        # x_sd=(x-meanList)/sdList
+
+        # 取得預測模型
+        with open("./svrModel.pickle", "rb") as f: 
+                predictModel = pickle.load(f) 
+
+
+        sd_x = StandardScaler()
+
+        x = sd_x.fit_transform(x)
+
+        y_pred = predictModel.predict(x)
+        info={
+            'x':months,
+            'y':y_pred
+        }
+        response = HttpResponse()
+        response.content = info
+        return render(request, "dataAnalysis.html", info)
 
 
 # backup

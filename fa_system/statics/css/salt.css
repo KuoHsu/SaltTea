@@ -24,7 +24,7 @@ body {
   top: 75px;
 }
 
-.main-menu > li {
+header .main-menu > li {
   width: 130px;
   margin: 0 10px;
   text-align: center;
@@ -37,11 +37,11 @@ body {
   border-bottom: 2px solid #fff;
 }
 
-.main-menu > li:hover .sub_menu {
+header .main-menu > li:hover .sub_menu {
   display: block;
 }
 
-.sub_menu {
+header .sub_menu {
   position: absolute;
   display: none;
   left: 0px;
@@ -52,24 +52,68 @@ body {
   color: rgba(255, 255, 255, 0.75);
 }
 
-.sub_menu > li {
-  width: 130px;
+header .sub_menu > li {
+  width: 100%;
   margin: 0;
   padding: 0.5em 0;
   display: block;
   transition: all 0.25s;
 }
 
-.sub_menu > li > a {
+header .sub_menu > li > a {
   color: #fff;
 }
 
-.sub_menu > li:hover {
+header .sub_menu > li:hover {
   background: rgba(255, 255, 255, 0.25);
 }
 
 header {
   height: 75px !important;
+}
+
+header.theme2 {
+  background: #fff !important;
+  font-weight: bolder;
+  color: #000 !important;
+  box-shadow: 0 4px 0 2px rgba(255, 255, 255, 0.75);
+  height: 80px !important;
+}
+
+header.theme2 .site-logo a {
+  color: #000 !important;
+}
+
+header.theme2 .main-menu a {
+  color: #000 !important;
+}
+
+header.theme2 .main-menu li:hover {
+  background: #f89d13;
+}
+
+header.theme2 .main-menu li:hover > a {
+  color: #fff !important;
+}
+
+header.theme2 #accountInfo {
+  color: #000;
+}
+header.theme2 .sub_menu li {
+  background: #fff !important;
+}
+
+header.theme2 .sub_menu li:hover {
+  background: transparent !important;
+  color: #fff !important;
+  border: none !important;
+}
+
+header.theme2 .sub_menu {
+  left: 0px;
+  width: 130px;
+  background: linear-gradient(180deg, #f89d13, #ff6a00) !important;
+  border-top: none;
 }
 
 #accountInfo {
@@ -88,44 +132,6 @@ header {
 
 #accountInfo a:hover {
   color: #4f45e3;
-}
-
-header.theme2 {
-  background: #fff !important;
-  font-weight: bolder;
-  color: #000 !important;
-  box-shadow: 0 4px 0 2px rgba(255, 255, 255, 0.75);
-  height: 80px !important;
-}
-
-header.theme2 .site-logo a {
-  color: #000 !important;
-}
-
-header.theme2 .main-menu a {
-  color: #000 !important;
-}
-header.theme2 .main-menu li:hover > a {
-  color: #fff !important;
-}
-
-header.theme2 .sub_menu li {
-  background: #fff !important;
-}
-
-header.theme2 #accountInfo {
-  color: #000;
-}
-
-header.theme2 .main-menu li:hover {
-  background: linear-gradient(135deg, #f89d13, #ff6a00) !important;
-  color: #fff !important;
-  border: none !important;
-}
-
-header.theme2 .sub_menu {
-  left: -3px;
-  border: solid 3px #f89d13;
 }
 
 .text-we-bold {

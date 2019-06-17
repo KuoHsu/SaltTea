@@ -124,12 +124,13 @@ function createOperationTable(table, dataObj, isBranch = false) {
   $(trs[11]).append(tdCreater("總計", "24px", "center", "none"));
   $(trs[11]).append(tdCreater(priceFormat(total), "24px", "right", "none"));
 
-  console.log(trs);
-
   $(__table).append(trs);
   $(__table).css("border", "dotted 2px #111");
   $(__table + " td").css("width", "300px");
   $(__table + " td").css("padding", "0 6px");
+  fontBolder(table, 0);
+  fontBolder(table, 1);
+  fontBolder(table, 11);
 }
 
 function createSalesTable(table, dataObj, isBranch = false) {
