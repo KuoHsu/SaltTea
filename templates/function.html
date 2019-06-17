@@ -9,13 +9,16 @@
 {% block container %}
   <div class="row align-items-center text-center">
     <div class="col-12">
-      <div class="row align-items-center pt-5 px-5 text-black position-relative text-family-b" id="content-block">
+      <div class="row align-items-center pt-5 px-5 text-black position-relative text-family-b" id="containerBlock">
+        <div id = "optionBlock" class="functionPageBlock">
+          {% block optionBlock %}
+          {% endblock optionBlock %}
+       </div>
 
-      {% block optionBlock %}
-      {% endblock optionBlock %}
-
-      {% block contentBlock %}
-      {% endblock contentBlock %}
+        <div id = "contentBlock" class="functionPageBlock">
+          {% block contentBlock %}
+          {% endblock contentBlock %}
+        </div>
 
       </div> 
       {% include "message.html" %}

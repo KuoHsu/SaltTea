@@ -4,7 +4,6 @@
 {% block title %}分店銷售概況{% endblock title %}
 
 {% block optionBlock %}
-<div id="optionBlock">
     月份：
     <select id="month" value="1" class="cus-control-25 text-family-b form-control mt-2 mx-auto">
         <option value="1">January</option>
@@ -27,10 +26,35 @@
         <option value="003">師範大學分店</option>
     </select>
     <button id="query" class="btn btn-primary btn-pill ob-b">Query</button>
-</div>
 {% endblock optionBlock %}
 
 {% block contentBlock %}
     <table id="queryReport">
     </table>
 {% endblock contentBlock %}
+
+{% block script %}
+    <script>
+    function responseHandle(data, status) {
+        if (status == 'success') {
+            var dataObj = JSON.parse(data);
+            setMessage('無符合資料！');
+            if (dataObj.queryFlag){
+                setMessage('查詢成功！');
+                createSalesTable(dataObj.groups,true);
+            }
+            showMessage();
+        }else{
+            setMessage('不知名錯誤！');
+            showMessage();
+        }
+    }
+    function queryHandle() {
+        const month = $('#month').val();
+        const branchId = $('#branchId').val();
+        const data = { 'month': month, 'branchId': branchId, 'csrfmiddlewaretoken': '{{ csrf_token }}' };
+        $.post('bsTable/action', data, responseHandle);
+    }
+    $('#query').click(queryHandle)
+  </script>
+{% endblock script %}
