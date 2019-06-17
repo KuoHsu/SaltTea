@@ -52,7 +52,7 @@ function tdCreater(
 }
 
 function branchName(branchId) {
-  return Number(branchId) - 20000 + "號分店";
+  return " 臺北區" + (Number(branchId) - 20000) + "號分店";
 }
 
 function createOperationTable(table, dataObj, isBranch = false) {
@@ -157,8 +157,8 @@ function createSalesTable(table, dataObj, isBranch = false) {
       item = items[key];
       tr = $("<tr/>");
       /*Id, name, group*/
-      $(tr).append(tdCreater(item.itemId, fontSize, "cneter", "none"));
-      $(tr).append(tdCreater(item.name, fontSize, "cneter", "none"));
+      $(tr).append(tdCreater(item.itemid, fontSize, "cneter", "none"));
+      $(tr).append(tdCreater(item.itemName, fontSize, "cneter", "none"));
       $(tr).append(tdCreater(groupId, fontSize, "cneter", "none"));
 
       /*price, quantity, sales*/
