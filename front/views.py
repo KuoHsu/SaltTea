@@ -98,3 +98,8 @@ def dataAnalysis(request):
 def analysisReport(request):
     userInfo = getUserInfo(request)
     return render(request, 'analysisReport.html', userInfo)
+
+
+def about(request):
+    userInfo = getUserInfo(request)
+    return render(request, 'about.html', userInfo)

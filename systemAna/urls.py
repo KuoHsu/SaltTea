@@ -34,4 +34,5 @@ urlpatterns = [
     path('index/bsTable', bsTable),
     path('index/dataAnalysis', dataAnalysis),
     path('index/analysisReport', analysisReport),
+    path('index/about', about),
 ] + staticfiles_urlpatterns('statics/')
