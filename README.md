@@ -1,2 +1,0 @@
-# SaltTea
-SaltTea Website FrontEnd

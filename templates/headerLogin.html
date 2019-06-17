@@ -7,8 +7,8 @@
                     <li class="position-relative border-b-w">
                         <a href="" class="nav-link px-0">Home</a>
                         <ul class="sub_menu">
-                            <li class=""><a href="index/product">本公司商品</a></li>
-                            <li class=""><a href="index/about">關於我們</a></li>
+                            <li class=""><a href="/index/product">本公司商品</a></li>
+                            <li class=""><a href="/index/about">關於我們</a></li>
                         </ul>
                     </li>
 
@@ -18,23 +18,23 @@
                         <ul class="sub_menu">
 
                             {% if permission != 'branch' %}
-                            <li class=""><a href="index/goTable">總體營運報表</a></li>
+                            <li class=""><a href="/index/goTable">總體營運報表</a></li>
                             {% endif %}
                             
                             <!--投資人、分析師、財務部門(總公司)-->
 
                             {% if permission != 'investor' %}
-                            <li class=""><a href="index/boTable">分店營運報表</a></li>
+                            <li class=""><a href="/index/boTable">分店營運報表</a></li>
                             {% endif %}
                             <!--分店、分析師、財務部門(總公司)-->
 
                             {% if permission != 'branch' %}
-                            <li class=""><a href="index/gsTable">總體銷售報表</a></li>
+                            <li class=""><a href="/index/gsTable">總體銷售報表</a></li>
                             {% endif %}
                             <!--投資人、分析師、財務部門(總公司)-->
 
                             {% if permission != 'investor' %}
-                            <li class=""><a href="index/bsTable">分店銷售報表</a></li>
+                            <li class=""><a href="/index/bsTable">分店銷售報表</a></li>
                             {% endif %}
                             <!--分店、分析師、財務部門(總公司)-->
                         </ul>
@@ -44,24 +44,24 @@
                     <li class="position-relative border-b-w">
                         <a href="" class="text-white nav-link px-0">UploadReport</a>
                         <ul class="sub_menu">
-                            <li><a href="index/uploadReport" class="uploadReport">上傳各項報表</a></li>
+                            <li><a href="/index/upload" class="uploadReport">上傳各項報表</a></li>
                             <!--分店-->
                         </ul>
                     </li>
                     {% endif %}
 
-                    {% if permission == 'finDep' or permission == 'analysis' %}
+                    {% if permission == 'finDep' or permission == 'analyst' %}
                     <li class="position-relative border-b-w">
                         <a href="" class="text-white nav-link px-0">DataAnalysis</a>
                         <ul class="sub_menu">
 
-                            {% if permission == 'analysis' %}
-                            <li class=""><a href="index/dataAnalysis">數據分析</a></li>
+                            {% if permission == 'analyst' %}
+                            <li class=""><a href="/index/dataAnalysis">數據分析</a></li>
                             <!--分析師-->
                             {% endif %}
 
                             {% if permission == 'finDep' %}
-                            <li class=""><a href="index/analysisReport">檢視分析報告</a></li>
+                            <li class=""><a href="/index/analysisReport">檢視分析報告</a></li>
                             <!--財務部門(總公司)-->
                             {% endif %}
 
@@ -77,7 +77,7 @@
             <nav class="site-navigation position-relative text-right" role="navigation">
                 <div id="accountInfo">
                     <span class="px-2">Hello !　{{username}}</span>　
-                    <span class="p-2"><a href="logout">Sign Out</a></span>
+                    <span class="p-2"><a href="/index/logout/">Sign Out</a></span>
                 </div>
             </nav>
             <a href="#" class="d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black float-right"><span

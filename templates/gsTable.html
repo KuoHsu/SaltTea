@@ -35,7 +35,7 @@
             setMessage('無符合資料！');
             if (dataObj.queryFlag){
                 setMessage('查詢成功！');
-                createSalesTable(dataObj.groups);
+                createSalesTable('queryReport',dataObj);
             }
             showMessage();
         }else{
@@ -46,7 +46,7 @@
     function queryHandle() {
         const month = $('#month').val();
         const data = { 'month': month, 'csrfmiddlewaretoken': '{{ csrf_token }}' };
-        $.post('gsTable/action', data, responseHandle);
+        $.post('action/', data, responseHandle);
     }
     $('#query').click(queryHandle)
   </script>

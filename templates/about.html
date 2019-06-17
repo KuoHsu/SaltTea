@@ -31,7 +31,7 @@ theme2
 }
 .filp{
     height:35vh;
-    flex:0 0 30%;
+    flex:0 0 25%;
     display:flex;
 }
 #teamMember .col{
@@ -51,20 +51,23 @@ theme2
     width:100%;
     height:100%;
     padding:3vh 1vw;
-    background-color:#fff;
     border-radius: 5px;
 }
 .front{
+    background-color:#fff;
+    color: #111!important;
 }
 .back{
     transform:rotateY(180deg);
-    backface-visibility:hidden;
+    color:#fff!important;
+    background:linear-gradient(135deg, #f89d13,#ff6a00);
+    /*backface-visibility:hidden;*/
 }
 #teamMember img{
     border-radius:5px;
     background-size:cover;
-    width:90%;
-    height:80%;
+    width:240px;
+    height:180px;
 }
 #teamMember hr{
     margin:1rem 0 .5rem 0;
@@ -74,6 +77,9 @@ theme2
 }
 .filp:hover .col{
     transform:rotateY(180deg);
+}
+.filp p{
+    color:#fff!important;
 }
 
 </style>
@@ -86,13 +92,13 @@ theme2
         <div class="filp">
             <div class="col">
                 <div class="front side">
-                    <img src="{% static 'images/'%}B10609002.jpg" alt="">
+                    <img src="{% static 'images/'%}B10609027.jpg" alt="">
                     <hr>
-                    <span>李丞彥</span>
+                    <span>吳芷昀</span>
                 </div>
                 <div class="back side">
                     <p>
-                    介紹介紹介紹介紹介紹介紹介紹介紹介紹介紹介紹介紹
+                    我是一隻貓
                     </p>
                 </div>
             </div>
@@ -100,13 +106,13 @@ theme2
         <div class="filp">
             <div class="col">
                 <div class="front side">
-                    <img src="{% static 'images/'%}B10609002.jpg" alt="">
+                    <img src="{% static 'images/'%}B10630349.jpg" alt="">
                     <hr>
-                    <span>李丞彥</span>
+                    <span>朱梓蕓</span>
                 </div>
                 <div class="back side">
                     <p>
-                    介紹介紹介紹介紹介紹介紹介紹介紹介紹介紹介紹介紹
+                    我是一隻朱
                     </p>
                 </div>
             </div>
@@ -116,13 +122,27 @@ theme2
         <div class="filp">
             <div class="col">
                 <div class="front side">
-                    <img src="{% static 'images/'%}B10609002.jpg" alt="">
+                    <img src="{% static 'images/'%}B10609047.jpg" alt="">
                     <hr>
-                    <span>李丞彥</span>
+                    <span>李政翰</span>
                 </div>
                 <div class="back side">
                     <p>
-                    介紹介紹介紹介紹介紹介紹介紹介紹介紹介紹介紹介紹
+                    If the actually observed sample is not close to the expect sample under hypothesis, <br>
+                    then we tend to reject the hypothesis.
+                    </p>
+                </div>
+            </div>
+        </div><div class="filp">
+            <div class="col">
+                <div class="front side">
+                    <img src="{% static 'images/'%}B10609013.jpg" alt="">
+                    <hr>
+                    <span>郭旭</span>
+                </div>
+                <div class="back side">
+                    <p>
+                    Always sleeping, <br>never wake up.
                     </p>
                 </div>
             </div>
@@ -135,20 +155,9 @@ theme2
                 </div>
                 <div class="back side">
                     <p>
-                    介紹介紹介紹介紹介紹介紹介紹介紹介紹介紹介紹介紹
-                    </p>
-                </div>
-            </div>
-        </div><div class="filp">
-            <div class="col">
-                <div class="front side">
-                    <img src="{% static 'images/'%}B10609002.jpg" alt="">
-                    <hr>
-                    <span>李丞彥</span>
-                </div>
-                <div class="back side">
-                    <p>
-                    介紹介紹介紹介紹介紹介紹介紹介紹介紹介紹介紹介紹
+                    腦袋開始崩潰。<br>
+                    Your brain was crashed.<br>
+                    Do you want to reload your life?
                     </p>
                 </div>
             </div>

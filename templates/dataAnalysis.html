@@ -3,24 +3,23 @@
 
 {% block title %}數據分析{% endblock title %}
 
+{% block style %}
+<style>
+#graphyOfProfit{
+    border:1px solid #000;
+    display:inline-block;
+    margin-bottom:5vh;
+}
+#contentBlock span{
+    display:block;
+}
+</style>
+{% endblock style %}
+
+
 {% block optionBlock %}
-<!--<div id="optionBlock">
-    <span>起始月份</span>
-    <select id="month" value="1" class="cus-control-25 text-family-b form-control mt-2 mx-auto">
-        <option value="1">January</option>
-        <option value="2">February</option>
-        <option value="3">March</option>
-        <option value="4">April</option>
-        <option value="5">May</option>
-        <option value="6">June</option>
-        <option value="7">July</option>
-        <option value="8">August</option>
-        <option value="9">September</option>
-        <option value="10">October</option>
-        <option value="11">November</option>
-        <option value="12">December</option>
-    </select>
-    <span>結束月份</span>
+<div id="optionBlock">
+    <span>分析月份：</span>
     <select id="month" value="1" class="cus-control-25 text-family-b form-control mt-2 mx-auto">
         <option value="1">January</option>
         <option value="2">February</option>
@@ -36,11 +35,13 @@
         <option value="12">December</option>
     </select>
     <button id="query" class="btn btn-primary btn-pill ob-b">Query</button>
-</div>-->
+</div>
 {% endblock optionBlock %}
 
 {% block contentBlock %}
-<img src="" alt="">
+
+
+<canvas id="graphyOfProfit" width="1000" height="600"></canvas>
 <span style="font-size: 24px;font-weight: bolder;">分析報告內容撰寫區</span>
 <textarea style="margin-top: 12px;" cols="50" rows="10" id="reportContent" class="form-control"></textarea>
 <button class="ob-b btn btn-primary mt-5" id="upload">upload report</button>
@@ -48,20 +49,39 @@
 
 {% block script %}
 <script>
-function responseHandle(data,status){
-    if(status == 'success'){
-        dataObj = JSON.parse(data);
-        setMessage('報告上傳成功！');
-        if(!dataObj.uploadFlag)setMessage('報告上傳失敗！');
-        showMessage();
+    function queryResponseHandle(data,status){
+        if(status == 'success'){
+            dataObj = JSON.parse(data);
+            if(dataObj.queryFlag){setMessage('圖表生成成功！');
+            }else{
+            setMessage('圖表生成失敗！');
+            }
+            showMessage();
 
+        }
+    }
+    function queryHandle() {
+        const month = $('#month').val();
+        const data = { 'month': month, 'csrfmiddlewaretoken': '{{ csrf_token }}' };
+        $.post('/index/dataAnalysis/query', data, uploadResponseHandle);
+    }
+    $('#query').click(queryHandle)
+
+    /*==================================================================*/
+    function uploadResponseHandle(data,status){
+        if(status == 'success'){
+            dataObj = JSON.parse(data);
+            setMessage('報告上傳成功！');
+            if(!dataObj.uploadFlag)setMessage('報告上傳失敗！');
+            showMessage();
+        }
     }
     function uploadHandle() {
         const content = $('#reportContent').val();
         const data = { 'content': content, 'csrfmiddlewaretoken': '{{ csrf_token }}' };
-        $.post('index/dataAnalysis/report', data, responseHandle);
+        $.post('/index/dataAnalysis/report', data, uploadResponseHandle);
     }
-  $('#upload').click(uploadHandle)
-}
+    $('#upload').click(uploadHandle)
+
 </script>
 {% endblock script %}

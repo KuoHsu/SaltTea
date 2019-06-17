@@ -100,11 +100,10 @@
         }
     }
     function loginHandle() {
-        const account = $('#account').val();
+        const username = $('#account').val();
         const password = $('#password').val();
-        username = account;
-        const data = { 'account': account, 'password': password, 'csrfmiddlewaretoken': '{{ csrf_token }}' };
-        $.post('login/action', data, responseHandle);
+        const data = { 'username': username, 'password': password, 'csrfmiddlewaretoken': '{{ csrf_token }}' };
+        $.post('action/', data, responseHandle);
     }
     $('#login').click(loginHandle)
 </script>

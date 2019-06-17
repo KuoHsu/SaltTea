@@ -19,11 +19,11 @@
         <option value="11">November</option>
         <option value="12">December</option>
     </select>
-    分店：
-    <select id="month" value="1" class="cus-control-25 text-family-b form-control mt-2 mx-auto">
-        <option value="001">臺灣科技大學分店</option>
-        <option value="002">臺灣大學分店</option>
-        <option value="003">師範大學分店</option>
+    分店代碼：
+    <select id="branchId" value="1" class="cus-control-25 text-family-b form-control mt-2 mx-auto">
+        {% for branchId in branchIds %}
+        <option value="{{branchId}}">{{branchId}}</option>
+        {% endfor %}
     </select>
     <button id="query" class="btn btn-primary btn-pill ob-b">Query</button>
 {% endblock optionBlock %}
@@ -41,7 +41,7 @@
             setMessage('無符合資料！');
             if (dataObj.queryFlag){
                 setMessage('查詢成功！');
-                createSalesTable(dataObj.groups,true);
+                createSalesTable('queryReport',dataObj,true);
             }
             showMessage();
         }else{
@@ -53,7 +53,7 @@
         const month = $('#month').val();
         const branchId = $('#branchId').val();
         const data = { 'month': month, 'branchId': branchId, 'csrfmiddlewaretoken': '{{ csrf_token }}' };
-        $.post('bsTable/action', data, responseHandle);
+        $.post('action/', data, responseHandle);
     }
     $('#query').click(queryHandle)
   </script>
