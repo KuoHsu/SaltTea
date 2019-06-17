@@ -4,7 +4,7 @@
 {% block title %}數據分析{% endblock title %}
 
 {% block optionBlock %}
-<div id="optionBlock">
+<!--<div id="optionBlock">
     <span>起始月份</span>
     <select id="month" value="1" class="cus-control-25 text-family-b form-control mt-2 mx-auto">
         <option value="1">January</option>
@@ -36,5 +36,32 @@
         <option value="12">December</option>
     </select>
     <button id="query" class="btn btn-primary btn-pill ob-b">Query</button>
-</div>
+</div>-->
 {% endblock optionBlock %}
+
+{% block contentBlock %}
+<img src="" alt="">
+<span style="font-size: 24px;font-weight: bolder;">分析報告內容撰寫區</span>
+<textarea style="margin-top: 12px;" cols="50" rows="10" id="reportContent" class="form-control"></textarea>
+<button class="ob-b btn btn-primary mt-5" id="upload">upload report</button>
+{% endblock contentBlock %}
+
+{% block script %}
+<script>
+function responseHandle(data,status){
+    if(status == 'success'){
+        dataObj = JSON.parse(data);
+        setMessage('報告上傳成功！');
+        if(!dataObj.uploadFlag)setMessage('報告上傳失敗！');
+        showMessage();
+
+    }
+    function uploadHandle() {
+        const content = $('#reportContent').val();
+        const data = { 'content': content, 'csrfmiddlewaretoken': '{{ csrf_token }}' };
+        $.post('index/dataAnalysis/report', data, responseHandle);
+    }
+  $('#upload').click(uploadHandle)
+}
+</script>
+{% endblock script %}

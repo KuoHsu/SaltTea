@@ -20,7 +20,7 @@ body {
 
 .container {
   position: relative;
-  min-height: 85vh;
+  min-height: 80vh;
   top: 75px;
 }
 
@@ -227,7 +227,7 @@ header.theme2 .sub_menu {
 
 #optionBlock {
   width: 100%;
-  padding: 0 10%;
+  padding: 0 5%;
 }
 
 #optionBlock span {

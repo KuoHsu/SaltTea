@@ -23,10 +23,7 @@
   function responseHandle(data, status) {
     if (status == 'success') {
       var dataObj = JSON.parse(data);
-      setMessage('上傳報表成功！');
-      if (!dataObj.uploadFlag) {
-        setMessage('上傳報表失敗！');
-      } 
+      setMessage(dataObj.meg);
       showMessage();
     }
   }
@@ -37,6 +34,5 @@
     $.post('uploadReport/action', data, responseHandle);
   }
   $('#upload').click(uploadHandle)
-
 </script>
 {% endblock script %}
