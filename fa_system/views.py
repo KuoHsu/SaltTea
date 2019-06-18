@@ -33,8 +33,7 @@ def data_analysis(request):
     return render(request, 'dataAnalysis.html', userInfo)
 
 
-def data_analysis_report(request):
-    pass
+
 
 
 def analysis_report(request):
@@ -131,7 +130,7 @@ def login_action(request):
         uid = request.POST.get("username", "")
         pwd = request.POST.get("password", "")
         user = auth.authenticate(username=uid, password=pwd)
-
+        print(user)
         if user is not None:
             auth.login(request, user)
             userAs = user.groups.all()[0].name
@@ -433,10 +432,9 @@ def get_user_info(request):
 def data_analysis_query(request):
 # 給 month 傳回 x,y
 
-
     if request.method == "POST":
 
-        month = request.POST.get("month")
+        month = int(request.POST.get("month"))
 
         userInfo = get_user_info(request)
 
@@ -501,29 +499,39 @@ def data_analysis_query(request):
         # meanList=
         # sdList=
         # x_sd=(x-meanList)/sdList
-
         # 取得預測模型
         with open("./svrModel.pickle", "rb") as f: 
-                predictModel = pickle.load(f) 
+            predictModel = pickle.load(f) 
 
 
         sd_x = StandardScaler()
 
         x = sd_x.fit_transform(x)
 
+        print(x)
         y_pred = predictModel.predict(x)
         info={
             'x':months,
-            'y':y_pred
+            'y': y_pred,
+            'queryFlag':True
         }
+        print(info)
         response = HttpResponse()
-        response.content = info
-        return render(request, "dataAnalysis.html", info)
+        response.content = json.dumps(info)
+        return response
 
 
+def data_analysis_report(request):
+    pass
 # backup
-
-
+# 傳入使用者ID, content 後儲存
+    if request.method == "POST":
+        uid = request.session.get("username")
+        ana=CustomUser.objects.get(username=uid)
+        Report.objects.create(analyst=ana,
+            topic='Profit Prediction',
+            report=request.POST.get("content"),
+            month=11)
 # def showTable(request):
 #     if request.method == "POST":
 

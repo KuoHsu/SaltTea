@@ -24,7 +24,7 @@ body {
   top: 75px;
 }
 
-header .main-menu > li {
+header .main-menu li {
   width: 130px;
   margin: 0 10px;
   text-align: center;
@@ -52,8 +52,7 @@ header .sub_menu {
   color: rgba(255, 255, 255, 0.75);
 }
 
-header .sub_menu > li {
-  width: 100%;
+header .sub_menu li {
   margin: 0;
   padding: 0.5em 0;
   display: block;

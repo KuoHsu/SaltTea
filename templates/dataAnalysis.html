@@ -63,7 +63,7 @@
     function queryHandle() {
         const month = $('#month').val();
         const data = { 'month': month, 'csrfmiddlewaretoken': '{{ csrf_token }}' };
-        $.post('/index/dataAnalysis/query', data, uploadResponseHandle);
+        $.post('/index/dataAnalysis/query/', data, queryResponseHandle);
     }
     $('#query').click(queryHandle)
 
@@ -79,7 +79,7 @@
     function uploadHandle() {
         const content = $('#reportContent').val();
         const data = { 'content': content, 'csrfmiddlewaretoken': '{{ csrf_token }}' };
-        $.post('/index/dataAnalysis/report', data, uploadResponseHandle);
+        $.post('/index/dataAnalysis/report/', data, uploadResponseHandle);
     }
     $('#upload').click(uploadHandle)
 

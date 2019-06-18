@@ -103,7 +103,7 @@
         const username = $('#account').val();
         const password = $('#password').val();
         const data = { 'username': username, 'password': password, 'csrfmiddlewaretoken': '{{ csrf_token }}' };
-        $.post('action/', data, responseHandle);
+        $.post('/index/login/action/', data, responseHandle);
     }
     $('#login').click(loginHandle)
 </script>

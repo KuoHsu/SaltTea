@@ -77,7 +77,7 @@ function createOperationTable(table, dataObj, isBranch = false) {
     "2019年" +
     dataObj.month +
     "月" +
-    (isBranch ? branchName(dataObj.branchId) + "銷售詳情表" : "總體營運概況表");
+    (isBranch ? branchName(dataObj.branchId) + "營運概況表" : "總體營運概況表");
 
   var info =
     (isBranch ? "分店代碼：" + dataObj.branchId : "") +

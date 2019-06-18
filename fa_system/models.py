@@ -25,7 +25,7 @@ class Investor(models.Model):
     number_of_invest = models.PositiveIntegerField()
 
     def __str__(self):
-        return self.investor
+        return self.investor.username
 
 
 class Report(models.Model):
@@ -34,15 +34,15 @@ class Report(models.Model):
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE
     )
     topic = models.CharField(max_length=100)
-    path = models.CharField(max_length=300)
+    report = models.TextField()
     month = models.PositiveIntegerField()
 
     def __str__(self):
-        return self.analyst
+        return self.analyst.username
 
 
 class Purchase(models.Model):
-    purchaseid = models.AutoField( primary_key=True)
+    purchaseid = models.AutoField(primary_key=True)
     itemid = models.CharField(max_length=300)
     itemname = models.CharField(max_length=50)
     branch = models.ForeignKey(
@@ -53,7 +53,7 @@ class Purchase(models.Model):
     quantity = models.PositiveIntegerField()
 
     def __str__(self):
-        return self.purchaseid
+        return self.branch.username
 
 
 class Sales(models.Model):
@@ -62,13 +62,13 @@ class Sales(models.Model):
     branch = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=True)
     itemid = models.CharField(max_length=30)
     itemname = models.CharField(max_length=50)
-    itemgroup=models.CharField(max_length=30)
+    itemgroup = models.CharField(max_length=30)
     price = models.PositiveIntegerField()
     quantity = models.PositiveIntegerField()
     month = models.PositiveIntegerField()
 
     def __str__(self):
-        return self.salesid
+        return self.branch.username
 
 
 class Utility(models.Model):
@@ -79,7 +79,7 @@ class Utility(models.Model):
     electric = models.PositiveIntegerField()
 
     def __str__(self):
-        return self.billid
+        return self.branch.username
 
 
 class Salary(models.Model):
@@ -89,5 +89,4 @@ class Salary(models.Model):
     total = models.PositiveIntegerField()
 
     def __str__(self):
-        return self.salaryid
-
+        return self.branch.username
