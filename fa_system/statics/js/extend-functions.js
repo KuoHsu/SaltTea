@@ -289,6 +289,7 @@ function drawArray(id, arr, color) {
   /*Edit by 李丞彥*/
   var c = document.getElementById(id);
   var ctx = c.getContext("2d");
+  ctx.clearRect(0, 0, 1000, 600);
   var len = arr.length;
   var space = c.width / (len + 1);
 

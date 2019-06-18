@@ -13,13 +13,26 @@
 #contentBlock span{
     display:block;
 }
+#canvasBlock{
+    position:relative;
+    margin-bottom:20px;
+}
+#graphyOfProfit{
+    margin:0;
+}
+.gmonth{
+    display:inline-block;
+    width:40px;
+    height:10px;
+    margin:0 55px;
+}
 </style>
 {% endblock style %}
 
 
 {% block optionBlock %}
 <div id="optionBlock">
-    <span>分析月份：</span>
+    <span>月份：</span>
     <select id="month" value="1" class="cus-control-25 text-family-b form-control mt-2 mx-auto">
         <option value="1">January</option>
         <option value="2">February</option>
@@ -40,9 +53,18 @@
 
 {% block contentBlock %}
 
-
+<div id="canvasBlock">
 <canvas id="graphyOfProfit" width="1000" height="600"></canvas>
+<div class="gmonth"></div>
+<div class="gmonth"></div>
+<div class="gmonth"></div>
+<div class="gmonth"></div>
+<div class="gmonth"></div>
+<div class="gmonth"></div>
+</div>
+
 <span style="font-size: 24px;font-weight: bolder;">分析報告內容撰寫區</span>
+<input type="text" class="form-control" id="topic">
 <textarea style="margin-top: 12px;" cols="50" rows="10" id="reportContent" class="form-control"></textarea>
 <button class="ob-b btn btn-primary mt-5" id="upload">upload report</button>
 {% endblock contentBlock %}
@@ -52,7 +74,18 @@
     function queryResponseHandle(data,status){
         if(status == 'success'){
             dataObj = JSON.parse(data);
-            if(dataObj.queryFlag){setMessage('圖表生成成功！');
+            if(dataObj.queryFlag){
+                data = dataObj.y;
+                for(var i in data){
+                    data[i] = data[i]*100 +300;
+                }
+                month = dataObj.x;
+                months = $('#canvasBlock .gmonth');
+                for(var i = 0;i<6;i++){
+                    months[i].innerHTML = month[i] + "月"
+                }
+                drawArray('graphyOfProfit',data);
+                setMessage('圖表生成成功！');
             }else{
             setMessage('圖表生成失敗！');
             }
@@ -71,14 +104,15 @@
     function uploadResponseHandle(data,status){
         if(status == 'success'){
             dataObj = JSON.parse(data);
-            setMessage('報告上傳成功！');
-            if(!dataObj.uploadFlag)setMessage('報告上傳失敗！');
+            setMessage('分析報告上傳成功！');
+            if(!dataObj.uploadFlag)setMessage('分析報告上傳失敗！');
             showMessage();
         }
     }
     function uploadHandle() {
         const content = $('#reportContent').val();
-        const data = { 'content': content, 'csrfmiddlewaretoken': '{{ csrf_token }}' };
+        const topic = $('#topic').val();
+        const data = { 'content': content,'topic': topic, 'csrfmiddlewaretoken': '{{ csrf_token }}' };
         $.post('/index/dataAnalysis/report/', data, uploadResponseHandle);
     }
     $('#upload').click(uploadHandle)

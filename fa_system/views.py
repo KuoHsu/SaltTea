@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from fa_system.models import CustomUser, Purchase, Utility, Salary, Sales
+from fa_system.models import *
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponseRedirect, HttpResponse
@@ -36,9 +36,7 @@ def data_analysis(request):
 
 
 
-def analysis_report(request):
-    userInfo = get_user_info(request)
-    return render(request, 'analysisReport.html', userInfo)
+
 
 
 # 上傳分析報告
@@ -70,36 +68,36 @@ def upload_action(request):
         request.method == "POST"
         and request.session.get("username", None) != None
     ):
-        response = HttpResponse()
+        response = render(request, "uploadReport.html")
         filetype = request.POST.get("category", "")
-        uid = request.session.get("username")
         fileToUpload = request.FILES.get("file", "")
+        uid = request.session.get("username")
         data = dict()
 
         if filetype == "purchase":
             msg = (
-                "Upload successfully"
+                "Upload Successfully"
                 if dp.importPurchase(uid, fileToUpload)
                 else "Invalid file format"
             )
             data["uploadFlag"] = True
         elif filetype == "sales":
             msg = (
-                "Upload successfully"
+                "Upload Successfully"
                 if dp.importSales(uid, fileToUpload)
                 else "Invalid file format"
             )
             data["uploadFlag"] = True
         elif filetype == "utility":
             msg = (
-                "Upload successfully"
+                "Upload Successfully"
                 if dp.importUtility(uid, fileToUpload)
                 else "Invalid file format"
             )
             data["uploadFlag"] = True
         elif filetype == "salary":
             msg = (
-                "Upload successfully"
+                "Upload Successfully"
                 if dp.importSalary(uid, fileToUpload)
                 else "Invalid file format"
             )
@@ -109,8 +107,9 @@ def upload_action(request):
             data["uploadFlag"] = False
 
         data["msg"] = msg
-        response.content = json.dumps(data)
-        return response
+        data["uploadFlag"] = True
+        return render(request, "uploadReport.html", data)
+
 
     else:
         return render(request, "uploadReport.html")
@@ -133,6 +132,7 @@ def login_action(request):
         print(user)
         if user is not None:
             auth.login(request, user)
+            print(type(user))
             userAs = user.groups.all()[0].name
 
             # 確認登入身分
@@ -508,11 +508,11 @@ def data_analysis_query(request):
 
         x = sd_x.fit_transform(x)
 
-        print(x)
+        print(x, months)
         y_pred = predictModel.predict(x)
         info={
             'x':months,
-            'y': y_pred,
+            'y': y_pred.tolist(),
             'queryFlag':True
         }
         print(info)
@@ -522,16 +522,41 @@ def data_analysis_query(request):
 
 
 def data_analysis_report(request):
-    pass
 # backup
 # 傳入使用者ID, content 後儲存
     if request.method == "POST":
         uid = request.session.get("username")
-        ana=CustomUser.objects.get(username=uid)
-        Report.objects.create(analyst=ana,
-            topic='Profit Prediction',
-            report=request.POST.get("content"),
+        ana = CustomUser.objects.get(username=uid)
+        content = report=request.POST.get("content")
+        topic = report=request.POST.get("topic")
+        newReport = Report.objects.create(analyst=ana,
+                                          topic=topic,
+                              report=content,
             month=11)
+        newReport.save()
+        response = HttpResponse()
+        data = dict()
+        data['uploadFlag'] = True;
+        response.content = json.dumps(data)
+        return response
+
+
+
+
+
+def analysis_report(request):
+    data = get_user_info(request)
+    reports = Report.objects.all()
+    reList = list()
+    for r in reports:
+        content = dict()
+        content['month'] = r.month
+        content['ana'] = r.analyst.username
+        content['report'] = r.report
+        content['topic'] = r.topic
+        reList.append(content)
+    data['reports'] = reList
+    return render(request, 'analysisReport.html', data)
 # def showTable(request):
 #     if request.method == "POST":
 
@@ -691,3 +716,11 @@ def data_analysis_report(request):
 
 #     else:
 #         return HttpResponseRedirect("/index/")
+
+from fa_system.models import  Purchase, Utility, Salary, Sales
+
+all_salary=Salary.objects.all()
+
+for i,p in enumerate(all_salary):
+    p.month=i%12 +1
+    p.save()

@@ -2,3 +2,60 @@
 {% extends "function.html" %}
 
 {% block title %}數據分析報告{% endblock title %}
+
+{% block style %}
+<style>
+.reportBlock{
+}
+.report{
+    margin:0 auto;
+    width:800px;
+    color:#111!important;
+    border:dotted 1px #111;
+    border-radius:10px;
+    background-color:#fafafa;
+    margin-bottom:20px;
+}
+#topic{
+    display:inline-block!important;
+    color:#111!important;
+    width:100%;
+    margin-bottom:8px;
+
+}
+#rcontent{
+    margin-top:20px;
+    display:inline-block!important;
+    color:#111!important;
+    padding:0 20px;
+    text-align:left;
+}
+
+#time{
+    display:inline-block!important;
+    color:#111!important;
+}
+#ana{
+    display:inline-block!important;
+    color:#111!important;
+}
+.report span{
+    margin-right:0;
+    font-size:14px;
+}
+</style>
+{% endblock style %}
+
+{% block contentBlock %}
+<div class="row reportBlock">
+    {% for r in reports %}
+    <div class="report">
+            <h1 id ="topic">{{r.topic}}</h1>
+            <span id="ana">分析師代號：{{r.ana}}</span><br>
+            <span id="time">分析期間：2019年{{r.month}}月</span><br>
+            <p id ="rcontent">{{r.report}}</p>
+        </div>
+    {% endfor %} 
+</div>
+
+{% endblock contentBlock %}
