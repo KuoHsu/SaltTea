@@ -10,7 +10,7 @@ import pickle
 import numpy as np
 import json
 from sklearn.preprocessing import StandardScaler
-
+# from sklearn.svm import SVR
 
 # 首頁
 
@@ -240,32 +240,32 @@ def bo_table_action(request):
         userInfo = get_user_info(request)
 
         # 銷貨收入
-        sales = Sales.objects.filter(branch = branchIdQuery).filter(month = month)
+        sales = Sales.objects.filter(branch__name=branchId).filter(month=month)
         price_list = [p.price for p in sales]
         quantity_list = [q.quantity for q in sales]
         sumOfSales = sum([i * j for i, j in zip(price_list, quantity_list)])
 
         # 銷貨成本
         purchase = Purchase.objects.filter(
-            branch=branchIdQuery).filter(month=month)
+            branch__username=branchId).filter(month=month)
         price_list = [p.price for p in purchase]
         quantity_list = [q.quantity for q in purchase]
         sumOfPurchase = sum([i * j for i, j in zip(price_list, quantity_list)])
 
         # 租金
         rent = Utility.objects.filter(
-            branch=branchIdQuery, month=month).aggregate(Sum("rent"))
+            branch__name=branchId, month=month).aggregate(Sum("rent"))
         rent = 0 if rent['rent__sum'] is None else rent['rent__sum']
 
         # 電費
         electric = Utility.objects.filter(
-            branch=branchIdQuery, month=month).aggregate(Sum("electric"))
+            branch__name=branchId, month=month).aggregate(Sum("electric"))
 
         electric = 0 if electric['electric__sum'] is None else electric['electric__sum']
 
         # 薪資
         salary = Salary.objects.filter(
-            branch=branchIdQuery, month=month).aggregate(Sum("total"))
+            branch__name=branchId, month=month).aggregate(Sum("total"))
         salary = 0 if salary['total__sum'] is None else salary['total__sum']
 
         info = {
@@ -345,7 +345,7 @@ def bs_table_action(request):
 
         # 當月同店家、同商品編號合併
         groupedSales = (
-            Sales.objects.filter(month = month, branch = branchIdQuery)
+            Sales.objects.filter(month=month, branch__username=branchId)
             .values("itemid")
             .annotate(quantity=Sum("quantity"))
             .annotate(price=Max("price"))
@@ -724,3 +724,9 @@ all_salary=Salary.objects.all()
 for i,p in enumerate(all_salary):
     p.month=i%12 +1
     p.save()
+
+
+def predictArray(x, y):
+    m = SVR()
+    m.fit(x, y)
+    return m.predict(x)
